@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+</head>
+<body>
+    index
+
+<input type="number" id="input_num1">
+<input type="number" id="input_num2">
+
+
+    <button onclick="listener_sum()">더하기</button>
+    <button onclick="listener_mul()">곱하기</button>
+
+    <script>
+        function listener_sum(){
+            $.ajax({
+                url: '/api/calculator',
+                method: 'GET',
+                data : {
+                    num1 : $("#input_num1").val(),
+                    num2 : $("#input_num2").val()
+                },
+                success: function (data, status, xhr) {
+                    alert("data = " + JSON.stringify(data));
+                },
+                error: function (data, status, err) {
+                },
+                complete: function () {
+                }
+            });
+        }
+
+        function listener_mul(){
+            $.ajax({
+                url: '/api/calculator2',
+                method: 'GET',
+                data : {
+                    num1 : $("#input_num1").val(),
+                    num2 : $("#input_num2").val()
+                },
+                success: function (data, status, xhr) {
+                    alert("data = " + JSON.stringify(data));
+                },
+                error: function (data, status, err) {
+                },
+                complete: function () {
+                }
+            });
+        }
+    </script>
+<script
+</body>
+</html>
