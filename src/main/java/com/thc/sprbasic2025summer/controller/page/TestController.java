@@ -1,4 +1,4 @@
-package com.thc.sprbasic2025summer.controller;
+package com.thc.sprbasic2025summer.controller.page;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
