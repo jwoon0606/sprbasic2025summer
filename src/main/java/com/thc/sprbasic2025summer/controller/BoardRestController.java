@@ -26,12 +26,12 @@ public class BoardRestController {
     }
 
     @RequestMapping("/list")
-    public List<Map<String, Object>> list () {
+    public Map<String, Object> list () {
         return boardService.list();
     }
 
     @RequestMapping("/detail/{id}")
-    public Map<String, Object> detail (@PathVariable int id) {
+    public Map<String, Object> detail (@PathVariable long id) {
         return boardService.detail(id);
     }
 
@@ -41,7 +41,7 @@ public class BoardRestController {
     }
 
     @RequestMapping("/delete")
-    public Map<String, Object> delete (@RequestParam int id) {
+    public Map<String, Object> delete (@RequestParam long id) {
         return boardService.delete(id);
     }
 }
