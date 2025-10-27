@@ -1,5 +1,6 @@
 package com.thc.sprbasic2025summer.service.impl;
 
+import com.thc.sprbasic2025summer.dto.BoardDto;
 import com.thc.sprbasic2025summer.entity.Board;
 import com.thc.sprbasic2025summer.repository.BoardRepository;
 import com.thc.sprbasic2025summer.service.BoardService;
@@ -21,19 +22,18 @@ public class BoardServiceImpl implements BoardService {
     int tempId = 0;*/
 
     @Override
-    public Map<String, Object> create(Map<String, Object> param) {
-        String title = String.valueOf(param.get("title"));
-        String content = String.valueOf(param.get("content"));
-        String author = String.valueOf(param.get("author"));
+    public BoardDto.CreateResDto create(BoardDto.CreateReqDto param) {
+        String title = String.valueOf(param.getTitle());
+        String content = String.valueOf(param.getContent());
+        String author = String.valueOf(param.getAuthor());
 
         Board board = Board.of(title, content, author);
         boardRepository.save(board);
 
-        Map<String, Object> map_result = new HashMap<>();
-        map_result.put("result", 200);
-        map_result.put("board", board);
 
-        return map_result;
+        /*BoardDto.CreateResDto resDto = new BoardDto.CreateResDto();
+        resDto.setId(board.getId());*/
+        return BoardDto.CreateResDto.builder().id(board.getId()).build();
     }
 
     @Override
@@ -61,21 +61,21 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Map<String, Object> update(Map<String, Object> param) {
+    public Map<String, Object> update(BoardDto.UpdateReqDto param) {
         int code = 200;
-        long id = Long.parseLong(param.get("id").toString());
+        long id = param.getId();
 
-        String title = param.get("title").toString();
-        String content = param.get("content").toString();
-        String author = param.get("author").toString();
+        String title = param.getTitle();
+        String content = param.getContent();
+        String author = param.getAuthor();
 
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("no data"));
         /*Board board = boardRepository.findById(id)
                 .orElse(null);*/
-        if(param.get("title") != null) { board.setTitle(title); }
-        if(param.get("content") != null) { board.setContent(content); }
-        if(param.get("author") != null) { board.setAuthor(author); }
+        if(param.getTitle() != null) { board.setTitle(title); }
+        if(param.getContent() != null) { board.setContent(content); }
+        if(param.getAuthor() != null) { board.setAuthor(author); }
         boardRepository.save(board);
 
         Map<String, Object> map_result = new HashMap<>();

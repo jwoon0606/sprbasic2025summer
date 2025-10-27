@@ -1,10 +1,10 @@
 package com.thc.sprbasic2025summer.controller;
 
+import com.thc.sprbasic2025summer.dto.BoardDto;
 import com.thc.sprbasic2025summer.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
@@ -18,7 +18,7 @@ public class BoardRestController {
     }*/
 
     @PostMapping("") // post 방식으로 받을 때는 @RequestParm이 아닌 @RequestBody를 사용해야 함
-    public Map<String, Object> create (@RequestBody Map<String,Object> param) {    //왜인진 모르겠지만 Map 으로 받을 때는 RequestParam 이 필요함
+    public BoardDto.CreateResDto create (@RequestBody BoardDto.CreateReqDto param) {    //왜인진 모르겠지만 Map 으로 받을 때는 RequestParam 이 필요함
         return boardService.create(param);
     }
 
@@ -33,7 +33,7 @@ public class BoardRestController {
     }
 
     @PutMapping("")
-    public Map<String, Object> update (@RequestBody Map<String, Object> param) {
+    public Map<String, Object> update (@RequestBody BoardDto.UpdateReqDto param) {
         return boardService.update(param);
     }
 
