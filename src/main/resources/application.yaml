@@ -20,7 +20,7 @@ spring:
       - classpath:/yaml/application-keys.yaml
   jpa:
     defer-datasource-initialization: true
-    hibernate.ddl-auto: create
+    hibernate.ddl-auto: update
     #hibernate.ddl-auto: none
     show-sql: true
     properties:

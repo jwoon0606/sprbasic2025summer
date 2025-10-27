@@ -2,10 +2,7 @@ package com.thc.sprbasic2025summer.controller;
 
 import com.thc.sprbasic2025summer.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -20,28 +17,28 @@ public class BoardRestController {
         this.boardService = boardService;
     }*/
 
-    @RequestMapping("/create")
-    public Map<String, Object> create (@RequestParam Map<String,Object> param) {    //왜인진 모르겠지만 Map 으로 받을 때는 RequestParam 이 필요함
+    @PostMapping("") // post 방식으로 받을 때는 @RequestParm이 아닌 @RequestBody를 사용해야 함
+    public Map<String, Object> create (@RequestBody Map<String,Object> param) {    //왜인진 모르겠지만 Map 으로 받을 때는 RequestParam 이 필요함
         return boardService.create(param);
     }
 
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public Map<String, Object> list () {
         return boardService.list();
     }
 
-    @RequestMapping("/detail/{id}")
+    @GetMapping("/detail/{id}")
     public Map<String, Object> detail (@PathVariable long id) {
         return boardService.detail(id);
     }
 
-    @RequestMapping("/update")
-    public Map<String, Object> update (@RequestParam Map<String, Object> param) {
+    @PutMapping("")
+    public Map<String, Object> update (@RequestBody Map<String, Object> param) {
         return boardService.update(param);
     }
 
-    @RequestMapping("/delete")
-    public Map<String, Object> delete (@RequestParam long id) {
-        return boardService.delete(id);
+    @DeleteMapping("")
+    public Map<String, Object> delete (@RequestBody Map<String,Object> param) {
+        return boardService.delete(param);
     }
 }

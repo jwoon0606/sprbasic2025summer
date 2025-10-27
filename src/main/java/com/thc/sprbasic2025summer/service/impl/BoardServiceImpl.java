@@ -86,7 +86,8 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Map<String, Object> delete(long id) {
+    public Map<String, Object> delete(Map<String, Object> param) {
+        long id = Long.parseLong(param.get("id").toString());
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("no data"));
 
