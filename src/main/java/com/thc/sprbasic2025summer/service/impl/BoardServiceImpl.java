@@ -1,6 +1,7 @@
 package com.thc.sprbasic2025summer.service.impl;
 
 import com.thc.sprbasic2025summer.dto.BoardDto;
+import com.thc.sprbasic2025summer.dto.DefaultDto;
 import com.thc.sprbasic2025summer.entity.Board;
 import com.thc.sprbasic2025summer.repository.BoardRepository;
 import com.thc.sprbasic2025summer.service.BoardService;
@@ -22,18 +23,8 @@ public class BoardServiceImpl implements BoardService {
     int tempId = 0;*/
 
     @Override
-    public BoardDto.CreateResDto create(BoardDto.CreateReqDto param) {
-        String title = String.valueOf(param.getTitle());
-        String content = String.valueOf(param.getContent());
-        String author = String.valueOf(param.getAuthor());
-
-        Board board = Board.of(title, content, author);
-        boardRepository.save(board);
-
-
-        /*BoardDto.CreateResDto resDto = new BoardDto.CreateResDto();
-        resDto.setId(board.getId());*/
-        return BoardDto.CreateResDto.builder().id(board.getId()).build();
+    public DefaultDto.CreateResDto create(BoardDto.CreateReqDto param) {
+        return boardRepository.save(param.toEntity()).toCreateResDto();
     }
 
     @Override
@@ -48,16 +39,14 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public Map<String, Object> detail(long id) {
+    public BoardDto.DetailResDto detail(long id) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("no data"));
 
-        int resultCode = 200;
-        Map<String, Object> map_result = new HashMap<>();
-        map_result.put("code", resultCode);
-        map_result.put("board", board);
-
-        return map_result;
+        return BoardDto.DetailResDto.builder().id(board.getId())
+                .deleted(board.getDeleted()).createdAt(board.getCreatedAt())
+                .modifiedAt(board.getModifiedAt()).title(board.getTitle())
+                .content(board.getContent()).author(board.getAuthor()).build();
     }
 
     @Override
@@ -65,17 +54,13 @@ public class BoardServiceImpl implements BoardService {
         int code = 200;
         long id = param.getId();
 
-        String title = param.getTitle();
-        String content = param.getContent();
-        String author = param.getAuthor();
-
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("no data"));
         /*Board board = boardRepository.findById(id)
                 .orElse(null);*/
-        if(param.getTitle() != null) { board.setTitle(title); }
-        if(param.getContent() != null) { board.setContent(content); }
-        if(param.getAuthor() != null) { board.setAuthor(author); }
+        if(param.getTitle() != null) { board.setTitle(param.getTitle()); }
+        if(param.getContent() != null) { board.setContent(param.getContent()); }
+        if(param.getAuthor() != null) { board.setAuthor(param.getAuthor()); }
         boardRepository.save(board);
 
         Map<String, Object> map_result = new HashMap<>();
@@ -90,8 +75,10 @@ public class BoardServiceImpl implements BoardService {
         long id = Long.parseLong(param.get("id").toString());
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("no data"));
-
-        boardRepository.delete(board);
+//
+//        boardRepository.delete(board);
+        board.setDeleted(true);
+        boardRepository.save(board);
 
         Map<String, Object> map_result = new HashMap<>();
         map_result.put("code", 200);

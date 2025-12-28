@@ -23,10 +23,10 @@ author : <input type="text" id="input_author">
             method: 'GET',
             success: function (data, status, xhr) {
                 alert("data = " + JSON.stringify(data));
-                let board = data["board"];
-                $("#input_title").val(board["title"]);
-                $("#input_content").val(board["content"]);
-                $("#input_author").val(board["author"]);
+
+                $("#input_title").val(data.title); // board["title"] -> data.title로 변경 (Map -> Dto)
+                $("#input_content").val(data.content);
+                $("#input_author").val(data.author);
             },
             error: function (data, status, err) {
             },
